@@ -41,8 +41,9 @@ export async function run() {
           // for set -e workaround, we need to install bash because alpine doesn't have it
           await execShellCommand(optionalSudoPrefix + 'apk add openssh-client xz bash');
         } else {
-          await execShellCommand(optionalSudoPrefix + 'apt-get update');
-          await execShellCommand(optionalSudoPrefix + 'apt-get install -y openssh-client xz-utils');
+          await execShellCommand(optionalSudoPrefix + 'apt-get update &> /dev/null');
+          await execShellCommand(optionalSudoPrefix + 'apt-get install -y openssh-client xz-utils &>/dev/null');
+          await execShellCommand(optionalSudoPrefix + 'echo "done installations"');
         }
 
         const tmateArch = TMATE_ARCH_MAP[os.arch()];
